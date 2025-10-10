@@ -23,6 +23,12 @@ try {
 
       <?php endforeach; ?>
 
+       <a href="notas.php"
+         class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'notas') ? 'active' : '' ?>">
+         Notas
+      </a>
+
+
       <?php if ($_SESSION['rol'] == 'admin'): ?>
 
          <a href="preguntas.php"

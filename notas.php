@@ -11,7 +11,7 @@ if (!isset($_SESSION['loguedUser'])) {
 
 
 $sql = <<<SQL
-select c.descripcion,count(*) as total, ifnull(consulta.bien,0), ifnull(consulta.bien,0)*10/count(*) as nota
+select c.descripcion,count(*) as total, ifnull(consulta.bien,0) as bien, ifnull(consulta.bien,0)*10/count(*) as nota
 from sqlrank_categorias c  
 join sqlrank_preguntas p on c.id_categoria=p.id_categoria
 left join (

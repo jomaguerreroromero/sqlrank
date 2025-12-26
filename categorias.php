@@ -5,7 +5,7 @@ require 'cliente-pdo.php';
 session_start();
 
 if (!(isset($_SESSION['loguedUser']) && $_SESSION['rol'] == 'admin')) {
-  header("location: /login.php");
+  header("location: /index.php");
 }
 
 try {

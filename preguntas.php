@@ -24,23 +24,23 @@ try {
       /*** operación UPDATE EN LA BASE DE DATOS ***/
       if ($id_pregunta) {
 
-        comando_pdo_sql("UPDATE sqlrank_preguntas SET numero=?,enunciado=?,solucion=?,id_categoria=? WHERE id_pregunta=?", array($numero, $enunciado, $solucion, $id_categoria, $id_pregunta));
+        comando_pdo_corrector("UPDATE sqlrank_preguntas SET numero=?,enunciado=?,solucion=?,id_categoria=? WHERE id_pregunta=?", array($numero, $enunciado, $solucion, $id_categoria, $id_pregunta));
       }
       /*** operación INSERT EN LA BASE DE DATOS ***/
       else {
 
-        comando_pdo_sql("INSERT INTO sqlrank_preguntas (numero,enunciado,solucion,id_categoria) VALUES (?, ?, ?, ?)", array($numero, $enunciado, $solucion, $id_categoria));
+        comando_pdo_corrector("INSERT INTO sqlrank_preguntas (numero,enunciado,solucion,id_categoria) VALUES (?, ?, ?, ?)", array($numero, $enunciado, $solucion, $id_categoria));
       }
     } elseif (isset($_POST['Borrar'])) {
       $id_pregunta = $_POST['id_pregunta'] ?? null;
-      comando_pdo_sql("DELETE FROM sqlrank_preguntas WHERE id_pregunta=?", array($id_pregunta));
+      comando_pdo_corrector("DELETE FROM sqlrank_preguntas WHERE id_pregunta=?", array($id_pregunta));
     }
   }
 
   /*** guardar en el array $preguntas todas las preguntas de la base de datos ***/
-  $preguntas = consulta_pdo_sql("SELECT p.*,c.descripcion as categoria FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria order by c.descripcion, p.numero");
+  $preguntas = consulta_pdo_corrector("SELECT p.*,c.descripcion as categoria FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria order by c.descripcion, p.numero");
   /*** guardar en el array $categorias todas las categorias de la base de datos ***/
-  $categorias = consulta_pdo_sql("SELECT * FROM sqlrank_categorias");
+  $categorias = consulta_pdo_corrector("SELECT * FROM sqlrank_categorias");
 } catch (Exception $e) {
   echo "Se ha producido una excepción mysql";
 }

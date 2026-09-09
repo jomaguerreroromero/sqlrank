@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $password = $_POST['password'];
     $consulta = "SELECT * FROM sqlrank_usuarios WHERE usuario=?";
-    $filas = consulta_pdo_sql($consulta, array($usuario));
+    $filas = consulta_pdo_corrector($consulta, array($usuario));
 
     if (count($filas) == 1 && password_verify($password, $filas[0]['password'])) {
       $_SESSION['loguedUser'] = $filas[0]['usuario'];

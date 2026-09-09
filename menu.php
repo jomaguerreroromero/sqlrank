@@ -2,7 +2,7 @@
 
 
 try {
-   $des_categorias = consulta_pdo_sql("SELECT descripcion FROM sqlrank_categorias WHERE activo=1 ORDER BY descripcion");
+   $des_categorias = consulta_pdo_corrector("SELECT descripcion FROM sqlrank_categorias WHERE activo=1 ORDER BY descripcion");
 } catch (Exception $e) {
    echo "Se ha producido una excepción mysql";
 }

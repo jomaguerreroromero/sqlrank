@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   //leer las respuestas anteriores del usuario en esta categoria
-  $respuestas_anteriores = consulta_pdo_sql("SELECT r.id_pregunta,r.respuesta,r.calificacion FROM sqlrank_respuestas r JOIN sqlrank_preguntas p on p.id_pregunta=r.id_pregunta JOIN sqlrank_categorias c on c.id_categoria=p.id_categoria where r.id_usuario=? and c.descripcion=?", array($_SESSION['IDloguedUser'], $categoria));
+  $respuestas_anteriores = consulta_pdo_corrector("SELECT r.id_pregunta,r.respuesta,r.calificacion FROM sqlrank_respuestas r JOIN sqlrank_preguntas p on p.id_pregunta=r.id_pregunta JOIN sqlrank_categorias c on c.id_categoria=p.id_categoria where r.id_usuario=? and c.descripcion=?", array($_SESSION['IDloguedUser'], $categoria));
 
 
 
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $filas = consulta_pdo_sql($respuesta_usuario);
 
         //obtener la solución
-        $sql_solucion = consulta_pdo_sql("select solucion from sqlrank_preguntas where id_pregunta=?", array($key));
+        $sql_solucion = consulta_pdo_corrector("select solucion from sqlrank_preguntas where id_pregunta=?", array($key));
 
         //realizar la consulta solucion
         $filas_sql_solucion = consulta_pdo_sql($sql_solucion[0]['solucion']);;
@@ -72,12 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       // grabar cada respuesta en la base de datos con su calificación: 1(bien), 0(mal) y null(desconocido)
       try {
-        $filas = consulta_pdo_sql("SELECT count(*) as cantidad FROM sqlrank_respuestas where id_pregunta=? and id_usuario=?",  array($key, $_SESSION['IDloguedUser']));
+        $filas = consulta_pdo_corrector("SELECT count(*) as cantidad FROM sqlrank_respuestas where id_pregunta=? and id_usuario=?",  array($key, $_SESSION['IDloguedUser']));
 
         if ($filas[0]['cantidad'] == 0) {
-          comando_pdo_sql("INSERT INTO sqlrank_respuestas (id_pregunta,id_usuario,respuesta,calificacion) VALUES (?, ?, ?, ?)",  array($key, $_SESSION['IDloguedUser'], $value, $calificacion));
+          comando_pdo_corrector("INSERT INTO sqlrank_respuestas (id_pregunta,id_usuario,respuesta,calificacion) VALUES (?, ?, ?, ?)",  array($key, $_SESSION['IDloguedUser'], $value, $calificacion));
         } else {
-          comando_pdo_sql("UPDATE sqlrank_respuestas SET respuesta=?, calificacion=? WHERE id_pregunta=? and id_usuario=?",  array($value, $calificacion, $key, $_SESSION['IDloguedUser']));
+          comando_pdo_corrector("UPDATE sqlrank_respuestas SET respuesta=?, calificacion=? WHERE id_pregunta=? and id_usuario=?",  array($value, $calificacion, $key, $_SESSION['IDloguedUser']));
         }
       } catch (Exception $e) {
         echo "Se ha producido una excepción mysql";
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 try {
 
   /*** guardar en el array $preguntas todas las preguntas de la base de datos ***/
-  $preguntas = consulta_pdo_sql("SELECT p.*,r.respuesta,r.calificacion,c.descripcion FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria left join sqlrank_respuestas r on r.id_pregunta=p.id_pregunta and r.id_usuario=? where c.descripcion=? ", array($_SESSION['IDloguedUser'], $categoria));
+  $preguntas = consulta_pdo_corrector("SELECT p.*,r.respuesta,r.calificacion,c.descripcion FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria left join sqlrank_respuestas r on r.id_pregunta=p.id_pregunta and r.id_usuario=? where c.descripcion=? ", array($_SESSION['IDloguedUser'], $categoria));
 } catch (Exception $e) {
   echo "Se ha producido una excepción mysql";
 }

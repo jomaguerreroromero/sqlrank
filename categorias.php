@@ -18,19 +18,19 @@ try {
 
       /*** operación UPDATE EN LA BASE DE DATOS ***/
       if ($id_categoria) {
-        comando_pdo_sql("UPDATE sqlrank_categorias SET descripcion=?,activo=? WHERE id_categoria=?", array($descripcion, $activo, $id_categoria));
+        comando_pdo_corrector("UPDATE sqlrank_categorias SET descripcion=?,activo=? WHERE id_categoria=?", array($descripcion, $activo, $id_categoria));
       }
       /*** operación INSERT EN LA BASE DE DATOS ***/
       else {
-        comando_pdo_sql("INSERT INTO sqlrank_categorias (descripcion,activo) VALUES (?,?)", array($descripcion, $activo));
+        comando_pdo_corrector("INSERT INTO sqlrank_categorias (descripcion,activo) VALUES (?,?)", array($descripcion, $activo));
       }
     } elseif (isset($_POST['Borrar'])) {
       $id_categoria = $_POST['id_categoria'] ?? null;
-      comando_pdo_sql("DELETE FROM sqlrank_categorias WHERE id_categoria=?", array($id_categoria));
+      comando_pdo_corrector("DELETE FROM sqlrank_categorias WHERE id_categoria=?", array($id_categoria));
     }
   }
 
-  $categorias = consulta_pdo_sql("SELECT * FROM sqlrank_categorias");
+  $categorias = consulta_pdo_corrector("SELECT * FROM sqlrank_categorias");
 } catch (Exception $e) {
   echo "Se ha producido una excepción mysql";
 }

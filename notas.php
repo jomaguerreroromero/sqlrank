@@ -27,7 +27,7 @@ SQL;
 
 
 try {
-    $notas = consulta_pdo_sql($sql, array($_SESSION['IDloguedUser']));
+    $notas = consulta_pdo_corrector($sql, array($_SESSION['IDloguedUser']));
 } catch (Exception $e) {
     echo "Se ha producido una excepción mysql";
 }

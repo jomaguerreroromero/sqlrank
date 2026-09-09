@@ -82,8 +82,8 @@ $config= [
 $connection_sql = Connection::make($config['aiven']);
 $connection_sql_consultor = Connection::make($config['aiven-consultor']);
 
-/***Función que ejecuta una consulta sql***/
-function consulta_pdo_sql($consulta, $array_valores = null)
+/***Función que ejecuta una consulta sql en la bd corrector***/
+function consulta_pdo_corrector($consulta, $array_valores = null)
 {
     global $connection_sql_consultor;
     $pdoStatement = $connection_sql_consultor->prepare($consulta);
@@ -91,10 +91,20 @@ function consulta_pdo_sql($consulta, $array_valores = null)
     return $pdoStatement->fetchAll();
 }
 
-/***Función que ejecuta un comando sql***/
-function comando_pdo_sql($comando, $array_valores = null)
+/***Función que ejecuta un comando sql en la bd corrector***/
+function comando_pdo_corrector($comando, $array_valores = null)
 {
     global $connection_sql;
     $pdoStatement = $connection_sql->prepare($comando);
     $pdoStatement->execute($array_valores);
+}
+
+
+/***Función que ejecuta una consulta sql en la bd de consultas***/
+function consulta_pdo_sql($consulta, $array_valores = null)
+{
+    global $connection_sql_consultor;
+    $pdoStatement = $connection_sql_consultor->prepare($consulta);
+    $pdoStatement->execute($array_valores);
+    return $pdoStatement->fetchAll();
 }

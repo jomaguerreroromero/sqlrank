@@ -25,10 +25,10 @@ try {
       if ($id_usuario) {
 
         if ((!isset($_POST['password']) || empty($_POST['password'])) && (!isset($_POST['password2']) || empty($_POST['password2']))) {
-          comando_pdo_sql("UPDATE sqlrank_usuarios SET usuario=?,rol=? WHERE id_usuario=?", array($usuario,  $rol, $id_usuario));
+          comando_pdo_corrector("UPDATE sqlrank_usuarios SET usuario=?,rol=? WHERE id_usuario=?", array($usuario,  $rol, $id_usuario));
         } elseif (isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['password2']) && !empty($_POST['password2']) &&  $_POST['password'] === $_POST['password2']) {
           $password = password_hash($password, PASSWORD_BCRYPT);
-          comando_pdo_sql("UPDATE sqlrank_usuarios SET usuario=?,password=?,rol=? WHERE id_usuario=?", array($usuario, $password, $rol, $id_usuario));
+          comando_pdo_corrector("UPDATE sqlrank_usuarios SET usuario=?,password=?,rol=? WHERE id_usuario=?", array($usuario, $password, $rol, $id_usuario));
         } else {
           throw new Exception("Ambas contraseñas deben coincidir");
         }
@@ -44,11 +44,11 @@ try {
         }
 
         $password = password_hash($password, PASSWORD_BCRYPT);
-        comando_pdo_sql("INSERT INTO sqlrank_usuarios (usuario,password,rol) VALUES (?, ?, ?)", array($usuario, $password, $rol));
+        comando_pdo_corrector("INSERT INTO sqlrank_usuarios (usuario,password,rol) VALUES (?, ?, ?)", array($usuario, $password, $rol));
       }
     } elseif (isset($_POST['Borrar'])) {
       $id_usuario = $_POST['id_usuario'] ?? null;
-      comando_pdo_sql("DELETE FROM sqlrank_usuarios WHERE id_usuario=?", array($id_usuario));
+      comando_pdo_corrector("DELETE FROM sqlrank_usuarios WHERE id_usuario=?", array($id_usuario));
     }
   }
 } catch (Exception $e) {
@@ -56,7 +56,7 @@ try {
 }
 
 try {
-  $usuarios = consulta_pdo_sql("SELECT * FROM sqlrank_usuarios");
+  $usuarios = consulta_pdo_corrector("SELECT * FROM sqlrank_usuarios");
 } catch (Exception $e) {
   echo "Se ha producido una excepción mysql";
 }

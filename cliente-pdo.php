@@ -40,6 +40,12 @@ $db_pass_escritor = getenv("DB_PASS_ESCRITOR");
 $db_user_consultor = getenv("DB_USER_CONSULTOR");
 $db_pass_consultor = getenv("DB_PASS_CONSULTOR");
 
+$db_sql_host = getenv("DB_SQL_HOST");
+$db_sql_port = getenv("DB_SQL_PORT");
+$db_sql_name = getenv("DB_SQL_NAME");
+$db_sql_user_consultor = getenv("DB_SQL_USER_CONSULTOR");
+$db_sql_pass_consultor = getenv("DB_SQL_PASS_CONSULTOR");
+
 
 
 $config= [

@@ -78,7 +78,25 @@ $config= [
 
         ]
 
+    ],
+
+    'aiven-consultor-sql' => [
+        'database' => $db_sql_name,
+        'user' => $db_sql_user_consultor,
+        'password' => $db_sql_pass_consultor,
+        'host' => $db_sql_host,
+        'port' => $db_sql_port,
+        'options' => [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_PERSISTENT => true
+
+
+        ]
+
     ]
+
+
 
 
 ];
@@ -87,6 +105,8 @@ $config= [
 
 $connection_sql = Connection::make($config['aiven']);
 $connection_sql_consultor = Connection::make($config['aiven-consultor']);
+
+$connection_sql_consultor_sql = Connection::make($config['aiven-consultor-sql']);
 
 /***Función que ejecuta una consulta sql en la bd corrector***/
 function consulta_pdo_corrector($consulta, $array_valores = null)
@@ -109,8 +129,8 @@ function comando_pdo_corrector($comando, $array_valores = null)
 /***Función que ejecuta una consulta sql en la bd de consultas***/
 function consulta_pdo_sql($consulta, $array_valores = null)
 {
-    global $connection_sql_consultor;
-    $pdoStatement = $connection_sql_consultor->prepare($consulta);
+    global $connection_sql_consultor_sql;
+    $pdoStatement = $connection_sql_consultor_sql->prepare($consulta);
     $pdoStatement->execute($array_valores);
     return $pdoStatement->fetchAll();
 }

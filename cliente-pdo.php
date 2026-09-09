@@ -33,6 +33,7 @@ if (file_exists(__DIR__ . '/.env')) {
 
 // Obtén las variables (ya sea del .env en local o de Render en producción)
 $db_host = getenv("DB_HOST");
+$db_port = getenv("DB_PORT");
 $db_name = getenv("DB_NAME");
 $db_user_escritor = getenv("DB_USER_ESCRITOR");
 $db_pass_escritor = getenv("DB_PASS_ESCRITOR");
@@ -48,7 +49,7 @@ $config= [
         'user' => $db_user_escritor,
         'password' => $db_pass_escritor,
         'host' => $db_host,
-        'port' => '15441',
+        'port' => $db_port,
         'options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -62,7 +63,7 @@ $config= [
         'user' => $db_user_consultor,
         'password' => $db_pass_consultor,
         'host' => $db_host,
-        'port' => '15441',
+        'port' => $db_port,
         'options' => [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

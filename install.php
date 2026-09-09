@@ -12,12 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $info = 'Ambas contraseñas deben coincidir';
         } else {
 
-            /** escribir en la variable $pass el password encriptado **/
-            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            $filas = consulta_pdo_corrector("SELECT rol FROM sqlrank_usuarios WHERE rol = 'admin'");
 
-            comando_pdo_corrector("INSERT INTO sqlrank_usuarios (usuario,password,rol) VALUES (?, ?, ?)", array('admin', $password, 'admin'));
+            if (count($filas) == 0) {
 
-            $info = "Usuario administrador creado satisfactoriamente";
+                /** escribir en la variable $pass el password encriptado **/
+                $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+                comando_pdo_corrector("INSERT INTO sqlrank_usuarios (usuario,password,rol) VALUES (?, ?, ?)", array('admin', $password, 'admin'));
+
+                $info = "Usuario administrador creado satisfactoriamente";
+            }
+            else{
+                $info = "Error. Ya existe un usuario con el rol de administrador";        
+            }
         }
     } catch (Exception $e) {
         $info = "Error. No se ha podido crear el usuario administrador";
@@ -52,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" name="password2" id="password2" /><br>
             <input type="submit" value="Enviar" />
         </form>
-        <p><?= $info ?></p>
+        <p><?= $info ?? ''?></p>
 
     </div>
 </body>

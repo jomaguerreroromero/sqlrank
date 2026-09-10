@@ -105,7 +105,7 @@ $categoria = $_GET["categoria"] ?? "";
               <td> <?= $pregunta['categoria'] ?> </td>
               <td> <input type="submit" class="btn btn-primary" name="Editar" value="Editar" data-bs-toggle="modal" data-bs-target="#myModal" onclick="rellenar_formulario(event)"> </td>
               <td>
-                <form action="<?= $_SERVER['PHP_SELF'] ?>" method='post'>
+                <form action="<?= $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>" method='post'>
                   <input type='hidden' name='id_pregunta' value="<?= $pregunta['id_pregunta'] ?>">
                   <input type="submit" class="btn btn-danger" name="Borrar" value="Borrar">
                 </form>
@@ -150,8 +150,13 @@ $categoria = $_GET["categoria"] ?? "";
 
                   <label for="id_categoria">Categoría:</label><br>
                   <select name="id_categoria" id="id_categoria">
-                    <?php foreach ($categorias as $categoria): ?>
-                      <option value="<?= $categoria['id_categoria'] ?>"><?= $categoria['descripcion'] ?></option>
+                    <?php foreach ($categorias as $cat): ?>
+                  
+ <option value="<?= $cat['id_categoria'] ?>" <?= $cat['descripcion'] === $categoria ? 'selected' : '' ?>>
+            <?= $cat['descripcion'] ?>
+        </option>
+
+
                     <?php endforeach; ?>
                   </select>
 

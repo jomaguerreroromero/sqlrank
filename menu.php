@@ -17,24 +17,26 @@ try {
       <?php foreach ($des_categorias as $des_categoria) : ?>
 
          <a href="cuestionario.php?categoria=<?= $des_categoria['descripcion'] ?>"
-            class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], $des_categoria['descripcion']) ? 'active' : '' ?>">
+            class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], $des_categoria['descripcion']) && strpos($_SERVER['REQUEST_URI'], 'cuestionario') ? 'active' : '' ?>">
             <?= $des_categoria['descripcion'] ?>
          </a>
 
       <?php endforeach; ?>
 
-       <a href="notas.php"
-         class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'notas') ? 'active' : '' ?>">
-         Notas
-      </a>
+  
 
 
       <?php if ($_SESSION['rol'] == 'admin'): ?>
 
-         <a href="preguntas.php"
-            class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'preguntas') ? 'active' : '' ?>">
-            Preguntas
+
+              <?php foreach ($des_categorias as $des_categoria) : ?>
+
+         <a href="preguntas.php?categoria=<?= $des_categoria['descripcion'] ?>"
+            class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], $des_categoria['descripcion']) && strpos($_SERVER['REQUEST_URI'], 'preguntas') ? 'active' : '' ?>">
+            <?= $des_categoria['descripcion'] ?>
          </a>
+
+      <?php endforeach; ?>
 
          <a href="categorias.php"
             class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'categorias') ? 'active' : '' ?>">
@@ -47,6 +49,11 @@ try {
          </a>
 
       <?php endif; ?>
+
+           <a href="notas.php"
+         class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'notas') ? 'active' : '' ?>">
+         Notas
+      </a>
 
       <a href="logout.php"
          class="list-group-item list-group-item-action w-100 <?= strpos($_SERVER['REQUEST_URI'], 'logout') ? 'active' : '' ?>">

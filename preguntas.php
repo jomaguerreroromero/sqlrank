@@ -11,6 +11,8 @@ if (!(isset($_SESSION['loguedUser']) && $_SESSION['rol'] == 'admin')) {
 
 try {
 
+$categoria = $_GET["categoria"] ?? "";
+
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($_POST['Aceptar'])) {
@@ -38,7 +40,7 @@ try {
   }
 
   /*** guardar en el array $preguntas todas las preguntas de la base de datos ***/
-  $preguntas = consulta_pdo_corrector("SELECT p.*,c.descripcion as categoria FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria order by c.descripcion, p.numero");
+  $preguntas = consulta_pdo_corrector("SELECT p.*,c.descripcion as categoria FROM sqlrank_preguntas p left join sqlrank_categorias c on c.id_categoria=p.id_categoria where c.descripcion=? order by c.descripcion, p.numero",array($categoria));
   /*** guardar en el array $categorias todas las categorias de la base de datos ***/
   $categorias = consulta_pdo_corrector("SELECT * FROM sqlrank_categorias");
 } catch (Exception $e) {
@@ -127,7 +129,11 @@ try {
               <!-- Modal body -->
               <div class="modal-body">
 
-                <form id="formulario" action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+
+        <form id="formulario" method="post" action="<?= $_SERVER['PHP_SELF'] . '?' . $_SERVER['QUERY_STRING'] ?>" enctype="multipart/form-data">
+
+
+
                   <label for="id_pregunta">id_pregunta:</label><br>
                   <input type="text" id="id_pregunta" name="id_pregunta" readonly><br>
                   <label for="numero">Número:</label><br>

@@ -146,9 +146,9 @@ try {
                   <label for="usuario">Usuario:</label><br>
                   <input type="text" id="usuario" name="usuario"><br>
                   <label for="password">Password:</label><br>
-                  <input type="text" minlength="24" id="password" name="password"><br>
+                  <input type="text" minlength="16" id="password" name="password"><br>
                   <label for="password2">Repetir Password:</label><br>
-                  <input type="text" minlength="24" id="password2" name="password2"><br>
+                  <input type="text" minlength="16" id="password2" name="password2"><br>
                   <label for="rol">Rol:</label><br>
                   <input type="text" id="rol" name="rol"><br>
 
